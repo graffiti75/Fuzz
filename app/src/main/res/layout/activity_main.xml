@@ -6,10 +6,9 @@
     <!-- TOOLBAR -->
     <include layout="@layout/toolbar" />
 
-    <!-- RECYCLER VIEW NORMAL -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/id_recycler_view"
+    <!-- VIEW PAGER -->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:layout_height="match_parent" />
 </LinearLayout>

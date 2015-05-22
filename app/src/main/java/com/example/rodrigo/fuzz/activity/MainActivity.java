@@ -1,14 +1,15 @@
 package com.example.rodrigo.fuzz.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.rodrigo.fuzz.R;
 import com.example.rodrigo.fuzz.adapter.FuzzAdapter;
+import com.example.rodrigo.fuzz.adapter.ViewPagerAdapter;
 import com.example.rodrigo.fuzz.model.Fuzz;
 import com.example.rodrigo.fuzz.service.RetrofitService;
 
@@ -24,7 +25,7 @@ import retrofit.client.Response;
 /**
  * Created by Rodrigo Cericatto on 22/05/2015.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
     //--------------------------------------------------
     // Constants
@@ -43,6 +44,9 @@ public class MainActivity extends Activity {
 
     private RecyclerView mRecyclerView;
     private FuzzAdapter mAdapter;
+
+    private ViewPager mPager;
+    private ViewPagerAdapter mViewPagerAdapter;
 
     //--------------------------------------------------
     // Activity Life Cycle
@@ -69,12 +73,17 @@ public class MainActivity extends Activity {
         mMaterialDialog = new MaterialDialog.Builder(this).title(R.string.progress_dialog).content(R.string.please_wait).progress(true, 0).show();
 
         // Recycler View.
-        mRecyclerView = (RecyclerView) findViewById(R.id.id_recycler_view);
-        mRecyclerView.setVisibility(View.INVISIBLE);
+        //mRecyclerView = (RecyclerView) findViewById(R.id.id_recycler_view);
+        //mRecyclerView.setVisibility(View.INVISIBLE);
 
         // Toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         toolbar.setTitle(getString(R.string.app_name));
+
+        // View Pager.
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mPager = (ViewPager) findViewById(R.id.id_view_pager);
+        mPager.setAdapter(mViewPagerAdapter);
     }
 
     public void getFuzzData() {
@@ -97,7 +106,7 @@ public class MainActivity extends Activity {
 
     public void dataLoadedSuccessfully(List<Fuzz> object) {
         // Data loaded.
-        mRecyclerView.setVisibility(View.VISIBLE);
+        //mRecyclerView.setVisibility(View.VISIBLE);
         mMaterialDialog.cancel();
 
         // Set lists.

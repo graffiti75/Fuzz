@@ -6,6 +6,17 @@
     <!-- TOOLBAR -->
     <include layout="@layout/toolbar" />
 
+    <!-- STATUS TEXT VIEW -->
+    <TextView
+        android:id="@+id/id_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:textSize="24dp"
+        android:textStyle="bold" />
+
     <!-- VIEW PAGER -->
     <android.support.v4.view.ViewPager
         android:id="@+id/id_view_pager"

@@ -3,13 +3,13 @@ package com.example.rodrigo.fuzz.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.rodrigo.fuzz.R;
-import com.example.rodrigo.fuzz.adapter.FuzzAdapter;
 import com.example.rodrigo.fuzz.adapter.ViewPagerAdapter;
+import com.example.rodrigo.fuzz.manager.ContentManager;
 import com.example.rodrigo.fuzz.model.Fuzz;
 import com.example.rodrigo.fuzz.service.RetrofitService;
 
@@ -37,16 +37,12 @@ public class MainActivity extends FragmentActivity {
     // Attributes
     //--------------------------------------------------
 
-    private RetrofitService mService;
-    private List<Fuzz> mFavouritesList;
-
     private MaterialDialog mMaterialDialog;
-
-    private RecyclerView mRecyclerView;
-    private FuzzAdapter mAdapter;
+    private RetrofitService mService;
 
     private ViewPager mPager;
     private ViewPagerAdapter mViewPagerAdapter;
+    private TextView mStatusTextView;
 
     //--------------------------------------------------
     // Activity Life Cycle
@@ -72,18 +68,42 @@ public class MainActivity extends FragmentActivity {
         // Progress Bar.
         mMaterialDialog = new MaterialDialog.Builder(this).title(R.string.progress_dialog).content(R.string.please_wait).progress(true, 0).show();
 
-        // Recycler View.
-        //mRecyclerView = (RecyclerView) findViewById(R.id.id_recycler_view);
-        //mRecyclerView.setVisibility(View.INVISIBLE);
-
         // Toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
         toolbar.setTitle(getString(R.string.app_name));
+
+        // Status.
+        mStatusTextView = (TextView) findViewById(R.id.id_text_view);
+        mStatusTextView.setText(getString(R.string.fragment_all));
 
         // View Pager.
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.id_view_pager);
         mPager.setAdapter(mViewPagerAdapter);
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                String text = "";
+                switch (position) {
+                    case 0:
+                        text = getString(R.string.fragment_all);
+                        break;
+                    case 1:
+                        text = getString(R.string.fragment_text);
+                        break;
+                    case 2:
+                        text = getString(R.string.fragment_images);
+                        break;
+                }
+                mStatusTextView.setText(text);
+            }
+
+            @Override
+            public void onPageSelected(int position) {}
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
     }
 
     public void getFuzzData() {
@@ -99,6 +119,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void success(List<Fuzz> object, Response response) {
+                ContentManager.getInstance().setFuzzList(object);
                 dataLoadedSuccessfully(object);
             }
         });
@@ -108,20 +129,5 @@ public class MainActivity extends FragmentActivity {
         // Data loaded.
         //mRecyclerView.setVisibility(View.VISIBLE);
         mMaterialDialog.cancel();
-
-        // Set lists.
-        setRecyclerView();
-    }
-
-    public void setRecyclerView() {
-        /*
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        mAdapter = new FuzzAdapter(this, mFavouritesList);
-        mRecyclerView.setAdapter(mAdapter);
-        */
     }
 }

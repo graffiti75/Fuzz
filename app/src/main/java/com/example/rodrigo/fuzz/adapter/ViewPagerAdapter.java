@@ -27,16 +27,22 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment = null;
         switch (position) {
             case 0:
-                return AllFragment.newInstance();
+                fragment = AllFragment.newInstance();
+                break;
             case 1:
-                return TextFragment.newInstance();
+                fragment = TextFragment.newInstance();
+                break;
             case 2:
-                return ImagesFragment.newInstance();
+                fragment = ImagesFragment.newInstance();
+                break;
             default:
-                return ImagesFragment.newInstance();
+                fragment = ImagesFragment.newInstance();
+                break;
         }
+        return fragment;
     }
 
     @Override

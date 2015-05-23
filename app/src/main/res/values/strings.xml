@@ -5,6 +5,16 @@
     <!-- Activities -->
     <string name="error_cause">The error cause is </string>
 
+    <!-- Fragments -->
+    <string name="fragment_all">All</string>
+    <string name="fragment_text">Text</string>
+    <string name="fragment_images">Images</string>
+
+    <!-- Adapters -->
+    <string name="adapter_id">Id:</string>
+    <string name="adapter_type">Type:</string>
+    <string name="adapter_data">Data:</string>
+
     <!-- Material Dialog -->
     <string name="progress_dialog">Loading Data</string>
     <string name="please_wait">Please wait&#8230;</string>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rodrigo.fuzz.R;
+import com.example.rodrigo.fuzz.activity.MainActivity;
 import com.example.rodrigo.fuzz.model.Fuzz;
 
 import java.util.List;
@@ -46,15 +47,43 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Fuzz item = mItems.get(position);
+        final MainActivity activity = (MainActivity)mContext;
 
+        // Id.
         String text = mContext.getString(R.string.adapter_id);
         holder.id.setText(text + " " + item.getId());
 
+        // Data Listener.
+        holder.id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.openWebViewActivity();
+            }
+        });
+
+        // Type.
         text = mContext.getString(R.string.adapter_type);
         holder.type.setText(text + " " + item.getType());
 
+        // Data Listener.
+        holder.type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.openWebViewActivity();
+            }
+        });
+
+        // Data.
         text = mContext.getString(R.string.adapter_data);
         holder.data.setText(text + " " + item.getData());
+
+        // Data Listener.
+        holder.data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.openWebViewActivity();
+            }
+        });
     }
 
     @Override

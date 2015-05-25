@@ -26,7 +26,6 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
 
     private List<Fuzz> mItems;
     private Activity mContext;
-    OnItemClickListener mItemClickListener;
 
     //--------------------------------------------------
     // Constructor
@@ -88,7 +87,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     // View Holder
     //--------------------------------------------------
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView id;
         public TextView type;
         public ImageView data;
@@ -99,25 +98,5 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
             type = (TextView) view.findViewById(R.id.id_adapter_image_type_text_view);
             data = (ImageView) view.findViewById(R.id.id_adapter_image_data_image_view);
         }
-
-        @Override
-        public void onClick(View view) {
-            Integer position = getPosition();
-            if (mItemClickListener != null) {
-                mItemClickListener.onItemClick(view, position);
-            }
-        }
-    }
-
-    //--------------------------------------------------
-    // Listener
-    //--------------------------------------------------
-
-    public interface OnItemClickListener {
-        public void onItemClick(View view , int position);
-    }
-
-    public void SetOnClickListener(final OnItemClickListener mItemClickListener) {
-        this.mItemClickListener = mItemClickListener;
     }
 }

@@ -45,7 +45,7 @@ public class ImageActivity extends Activity {
         });
 
         // Get extras.
-        String link = getIntent().getExtras().getString(MainActivity.LINK_EXTRA);
+        String link = getIntent().getExtras().getString(MainActivity.LINK_IMAGE_EXTRA);
 
         // Image.
         ImageView image = (ImageView) findViewById(R.id.id_image_view);

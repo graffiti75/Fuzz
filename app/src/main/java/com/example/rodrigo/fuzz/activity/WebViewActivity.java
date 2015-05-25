@@ -59,7 +59,7 @@ public class WebViewActivity extends Activity {
         });
 
         // Material Dialog.
-        mMaterialDialog =  new MaterialDialog.Builder(this).title(R.string.progress_dialog)
+        mMaterialDialog =  new MaterialDialog.Builder(this).title(R.string.progress_dialog_web_view)
             .content(R.string.please_wait).progress(true, 0).show();
 
         // Web View.

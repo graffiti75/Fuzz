@@ -39,7 +39,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 fragment = ImagesFragment.newInstance();
                 break;
             default:
-                fragment = ImagesFragment.newInstance();
+                fragment = AllFragment.newInstance();
                 break;
         }
         return fragment;

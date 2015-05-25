@@ -18,6 +18,7 @@
     <string name="adapter_data">Data:</string>
 
     <!-- Material Dialog -->
-    <string name="progress_dialog">Loading Data</string>
+    <string name="progress_dialog_retrofit">Loading Fuzz Productions Data</string>
+    <string name="progress_dialog_web_view">Loading Web View</string>
     <string name="please_wait">Please wait&#8230;</string>
 </resources>

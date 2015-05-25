@@ -14,6 +14,7 @@ import com.example.rodrigo.fuzz.adapter.TextAdapter;
 import com.example.rodrigo.fuzz.manager.ContentManager;
 import com.example.rodrigo.fuzz.model.Fuzz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,8 +62,19 @@ public class TextFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        List<Fuzz> list = ContentManager.getInstance().getFuzzList();
-        TextAdapter adapter = new TextAdapter(getActivity(), list);
+        TextAdapter adapter = new TextAdapter(getActivity(), getElementsByTextType());
         recyclerView.setAdapter(adapter);
+    }
+
+    public List<Fuzz> getElementsByTextType() {
+        List<Fuzz> list = ContentManager.getInstance().getFuzzList();
+        List<Fuzz> outputList = new ArrayList<Fuzz>();
+        for (Fuzz elem : list) {
+            String type = elem.getType();
+            if (type.equals("text")) {
+                outputList.add(elem);
+            }
+        }
+        return outputList;
     }
 }

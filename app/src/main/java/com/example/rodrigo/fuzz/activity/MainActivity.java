@@ -59,11 +59,7 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set the layout.
         setLayout();
-
-        // Retrofit.
-        getFuzzData();
     }
 
     //--------------------------------------------------
@@ -72,15 +68,15 @@ public class MainActivity extends FragmentActivity {
 
     public void setLayout() {
         // Progress Bar.
-        mMaterialDialog = new MaterialDialog.Builder(this).title(R.string.progress_dialog).content(R.string.please_wait).progress(true, 0).show();
+        mMaterialDialog = new MaterialDialog.Builder(this).title(R.string.progress_dialog_retrofit)
+            .content(R.string.please_wait).progress(true, 0).show();
 
         // Toolbar.
         mToolbar = (Toolbar) findViewById(R.id.id_toolbar);
         mToolbar.setTitle(getString(R.string.app_name));
 
-        // View Pager and Indicator.
-        initViewPager();
-        initIndicator();
+        // Retrofit.
+        getFuzzData();
     }
 
     public void initViewPager() {
@@ -150,8 +146,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void dataLoadedSuccessfully(List<Fuzz> object) {
-        // Data loaded.
-        //mRecyclerView.setVisibility(View.VISIBLE);
+        initViewPager();
+        initIndicator();
         mMaterialDialog.cancel();
     }
 

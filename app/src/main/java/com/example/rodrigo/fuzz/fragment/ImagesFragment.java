@@ -1,5 +1,6 @@
 package com.example.rodrigo.fuzz.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,12 +15,19 @@ import com.example.rodrigo.fuzz.adapter.ImagesAdapter;
 import com.example.rodrigo.fuzz.manager.ContentManager;
 import com.example.rodrigo.fuzz.model.Fuzz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Rodrigo Cericatto on 22/05/2015.
  */
 public class ImagesFragment extends Fragment {
+
+    //--------------------------------------------------
+    // Attributes
+    //--------------------------------------------------
+
+    private Activity mContext;
 
     //--------------------------------------------------
     // Constructor
@@ -30,7 +38,10 @@ public class ImagesFragment extends Fragment {
         return fragment;
     }
 
-    public ImagesFragment() {
+    public ImagesFragment() {}
+
+    public void setContext(Activity activity) {
+        mContext = activity;
     }
 
     //--------------------------------------------------
@@ -61,8 +72,19 @@ public class ImagesFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        List<Fuzz> list = ContentManager.getInstance().getFuzzList();
-        ImagesAdapter adapter = new ImagesAdapter(getActivity(), list);
+        ImagesAdapter adapter = new ImagesAdapter(getActivity(), getElementsByImagesType());
         recyclerView.setAdapter(adapter);
+    }
+
+    public List<Fuzz> getElementsByImagesType() {
+        List<Fuzz> list = ContentManager.getInstance().getFuzzList();
+        List<Fuzz> outputList = new ArrayList<Fuzz>();
+        for (Fuzz elem : list) {
+            String type = elem.getType();
+            if (type.equals("image")) {
+                outputList.add(elem);
+            }
+        }
+        return outputList;
     }
 }

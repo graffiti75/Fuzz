@@ -1,5 +1,6 @@
 package com.example.rodrigo.fuzz.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -32,6 +33,7 @@ public class MainActivity extends FragmentActivity {
     //--------------------------------------------------
 
     public static final String END_POINT = "http://quizzes.fuzzstaging.com/";
+    public static final String LINK_EXTRA = "link_extra";
 
     //--------------------------------------------------
     // Attributes
@@ -129,5 +131,18 @@ public class MainActivity extends FragmentActivity {
         // Data loaded.
         //mRecyclerView.setVisibility(View.VISIBLE);
         mMaterialDialog.cancel();
+    }
+
+    //--------------------------------------------------
+    // Outside Methods
+    //--------------------------------------------------
+
+    public void openImageActivity(String link) {
+        Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+        Bundle extras = new Bundle();
+        extras.putString(LINK_EXTRA, link);
+        intent.putExtras(extras);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_up_from_outside, R.anim.slide_up_to_outside);
     }
 }

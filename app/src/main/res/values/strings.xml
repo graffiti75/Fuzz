@@ -3,6 +3,7 @@
     <string name="app_name">Fuzz</string>
 
     <!-- Activities -->
+    <string name="activity_image">Zoom</string>
     <string name="error_cause">The error cause is </string>
 
     <!-- Fragments -->

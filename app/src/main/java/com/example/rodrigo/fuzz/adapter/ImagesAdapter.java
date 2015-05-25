@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rodrigo.fuzz.R;
+import com.example.rodrigo.fuzz.activity.MainActivity;
 import com.example.rodrigo.fuzz.model.Fuzz;
 import com.squareup.picasso.Picasso;
 
@@ -25,6 +26,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
 
     private List<Fuzz> mItems;
     private Activity mContext;
+    OnItemClickListener mItemClickListener;
 
     //--------------------------------------------------
     // Constructor
@@ -49,18 +51,29 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Fuzz item = mItems.get(position);
 
+        // Id.
         String text = mContext.getString(R.string.adapter_id);
         holder.id.setText(text + " " + item.getId());
 
+        // Type.
         text = mContext.getString(R.string.adapter_type);
         holder.type.setText(text + " " + item.getType());
 
-        text = item.getData();
-        if (text != null && text.length() > 0) {
-            Picasso.with(mContext).load(text).placeholder(R.drawable.place_holder).into(holder.data);
-        } else {
-            holder.data.setBackgroundResource(R.drawable.place_holder);
+        // Data.
+        String data = item.getData();
+        if (data != null && data.length() > 0) {
+            Picasso.with(mContext).load(data).into(holder.data);
         }
+
+        // Data listener.
+        final MainActivity activity = (MainActivity)mContext;
+        holder.data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String link = mItems.get(position).getData();
+                activity.openImageActivity(link);
+            }
+        });
     }
 
     @Override
@@ -75,7 +88,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     // View Holder
     //--------------------------------------------------
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView id;
         public TextView type;
         public ImageView data;
@@ -86,5 +99,25 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
             type = (TextView) view.findViewById(R.id.id_adapter_image_type_text_view);
             data = (ImageView) view.findViewById(R.id.id_adapter_image_data_image_view);
         }
+
+        @Override
+        public void onClick(View view) {
+            Integer position = getPosition();
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(view, position);
+            }
+        }
+    }
+
+    //--------------------------------------------------
+    // Listener
+    //--------------------------------------------------
+
+    public interface OnItemClickListener {
+        public void onItemClick(View view , int position);
+    }
+
+    public void SetOnClickListener(final OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
     }
 }

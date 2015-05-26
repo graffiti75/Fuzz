@@ -47,6 +47,25 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Fuzz item = mItems.get(position);
+
+        setIdField(holder, item);
+        setTypeField(holder, item);
+        setDataField(holder, item, position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mItems != null && mItems.size() > 0) {
+            return mItems.size();
+        }
+        return 0;
+    }
+
+    //--------------------------------------------------
+    // Methods
+    //--------------------------------------------------
+
+    public void setIdField(ViewHolder holder, Fuzz item) {
         final MainActivity activity = (MainActivity)mContext;
 
         // Id.
@@ -60,9 +79,13 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.ViewHolder> {
                 activity.openWebViewActivity();
             }
         });
+    }
+
+    public void setTypeField(ViewHolder holder, Fuzz item) {
+        final MainActivity activity = (MainActivity)mContext;
 
         // Type.
-        text = mContext.getString(R.string.adapter_type);
+        String text = mContext.getString(R.string.adapter_type);
         holder.type.setText(text + " " + item.getType());
 
         // Type Listener.
@@ -72,9 +95,13 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.ViewHolder> {
                 activity.openWebViewActivity();
             }
         });
+    }
+
+    public void setDataField(ViewHolder holder, Fuzz item, final Integer position) {
+        final MainActivity activity = (MainActivity)mContext;
 
         // Data.
-        text = mContext.getString(R.string.adapter_data);
+        String text = mContext.getString(R.string.adapter_data);
         holder.data.setText(text + " " + item.getData());
 
         // Data Listener.
@@ -84,14 +111,6 @@ public class AllAdapter extends RecyclerView.Adapter<AllAdapter.ViewHolder> {
                 activity.openWebViewActivity();
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        if (mItems != null && mItems.size() > 0) {
-            return mItems.size();
-        }
-        return 0;
     }
 
     //--------------------------------------------------

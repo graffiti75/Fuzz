@@ -50,7 +50,8 @@ public class ImageActivity extends Activity {
         // Image.
         ImageView image = (ImageView) findViewById(R.id.id_image_view);
         if (link != null && link.length() > 0) {
-            Picasso.with(this).load(link).into(image);
+            Picasso.with(this).load(link).error(R.drawable.retrofit_error)
+                .placeholder(R.drawable.place_holder).into(image);
         }
     }
 }

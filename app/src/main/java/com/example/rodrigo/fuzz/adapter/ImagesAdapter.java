@@ -49,6 +49,25 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Fuzz item = mItems.get(position);
+
+        setIdField(holder, item);
+        setTypeField(holder, item);
+        setDataField(holder, item, position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mItems != null && mItems.size() > 0) {
+            return mItems.size();
+        }
+        return 0;
+    }
+
+    //--------------------------------------------------
+    // Methods
+    //--------------------------------------------------
+
+    public void setIdField(ViewHolder holder, Fuzz item) {
         final MainActivity activity = (MainActivity)mContext;
 
         // Id.
@@ -62,9 +81,13 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
                 activity.openWebViewActivity();
             }
         });
+    }
+
+    public void setTypeField(ViewHolder holder, Fuzz item) {
+        final MainActivity activity = (MainActivity)mContext;
 
         // Type.
-        text = mContext.getString(R.string.adapter_type);
+        String text = mContext.getString(R.string.adapter_type);
         holder.type.setText(text + " " + item.getType());
 
         // Type Listener.
@@ -74,11 +97,20 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
                 activity.openWebViewActivity();
             }
         });
+    }
+
+    public void setDataField(ViewHolder holder, Fuzz item, final Integer position) {
+        final MainActivity activity = (MainActivity)mContext;
 
         // Data.
         String data = item.getData();
-        if (data != null && data.length() > 0) {
-            Picasso.with(mContext).load(data).into(holder.data);
+        Boolean validFile = validFileType(data);
+        if (data != null && data.length() > 0 && validFile) {
+            Picasso.with(mContext).load(data).error(R.drawable.retrofit_error)
+                    .placeholder(R.drawable.place_holder).into(holder.data);
+        } else {
+            Picasso.with(mContext).load(data).error(R.drawable.retrofit_error)
+                    .placeholder(R.drawable.place_holder).into(holder.data);
         }
 
         // Data listener.
@@ -91,12 +123,13 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
         });
     }
 
-    @Override
-    public int getItemCount() {
-        if (mItems != null && mItems.size() > 0) {
-            return mItems.size();
-        }
-        return 0;
+    public Boolean validFileType(String link) {
+        Boolean png = link.toLowerCase().contains("png");
+        Boolean jpg = link.toLowerCase().contains("jpg") || link.toLowerCase().contains("jpeg");
+        Boolean gif = link.toLowerCase().contains("gif");
+        Boolean bmp = link.toLowerCase().contains("bmp");
+        Boolean tiff = link.toLowerCase().contains("tiff");
+        return png || jpg || gif || bmp || tiff;
     }
 
     //--------------------------------------------------

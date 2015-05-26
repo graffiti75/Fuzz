@@ -104,14 +104,8 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
 
         // Data.
         String data = item.getData();
-        Boolean validFile = validFileType(data);
-        if (data != null && data.length() > 0 && validFile) {
-            Picasso.with(mContext).load(data).error(R.drawable.retrofit_error)
-                    .placeholder(R.drawable.place_holder).into(holder.data);
-        } else {
-            Picasso.with(mContext).load(data).error(R.drawable.retrofit_error)
-                    .placeholder(R.drawable.place_holder).into(holder.data);
-        }
+        Picasso.with(mContext).load(data).error(R.drawable.retrofit_error)
+            .placeholder(R.drawable.place_holder).into(holder.data);
 
         // Data listener.
         holder.data.setOnClickListener(new View.OnClickListener() {
@@ -121,15 +115,6 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ViewHolder
                 activity.openImageActivity(link);
             }
         });
-    }
-
-    public Boolean validFileType(String link) {
-        Boolean png = link.toLowerCase().contains("png");
-        Boolean jpg = link.toLowerCase().contains("jpg") || link.toLowerCase().contains("jpeg");
-        Boolean gif = link.toLowerCase().contains("gif");
-        Boolean bmp = link.toLowerCase().contains("bmp");
-        Boolean tiff = link.toLowerCase().contains("tiff");
-        return png || jpg || gif || bmp || tiff;
     }
 
     //--------------------------------------------------

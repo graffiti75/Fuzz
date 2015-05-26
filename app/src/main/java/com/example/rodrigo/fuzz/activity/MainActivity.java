@@ -12,8 +12,7 @@ import com.example.rodrigo.fuzz.adapter.ViewPagerAdapter;
 import com.example.rodrigo.fuzz.manager.ContentManager;
 import com.example.rodrigo.fuzz.model.Fuzz;
 import com.example.rodrigo.fuzz.service.RetrofitService;
-import com.viewpagerindicator.CirclePageIndicator;
-import com.viewpagerindicator.PageIndicator;
+import com.example.rodrigo.fuzz.view.SlidingTabLayout;
 
 import java.util.List;
 
@@ -47,8 +46,11 @@ public class MainActivity extends FragmentActivity {
     private Toolbar mToolbar;
     private ViewPager mPager;
     private ViewPagerAdapter mViewPagerAdapter;
-    private PageIndicator mIndicator;
     private Integer mCurrentPage = 0;
+
+    private SlidingTabLayout mTabs;
+    private CharSequence mTitles[] = { "All", "Text", "Images" };
+    private Integer mNumberOfTabs = 3;
 
     //--------------------------------------------------
     // Activity Life Cycle
@@ -80,7 +82,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void initViewPager() {
-        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mTitles, mNumberOfTabs);
         mPager = (ViewPager) findViewById(R.id.id_view_pager);
         mPager.setAdapter(mViewPagerAdapter);
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -102,28 +104,28 @@ public class MainActivity extends FragmentActivity {
             }
 
             @Override
-            public void onPageSelected(int position) {}
-
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });
-    }
-
-    public void initIndicator() {
-        mIndicator = (CirclePageIndicator) findViewById(R.id.id_page_indicator);
-        mIndicator.setViewPager(mPager);
-        mIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-            @Override
             public void onPageSelected(int position) {
-                mCurrentPage = position;
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
+    }
+
+    public void initTabs() {
+        mTabs = (SlidingTabLayout) findViewById(R.id.id_sliding_tab_layout);
+        mTabs.setDistributeEvenly(true);
+
+        mTabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.white);
+            }
+        });
+
+        // Setting the ViewPager For the SlidingTabsLayout
+        mTabs.setViewPager(mPager);
     }
 
     public void getFuzzData() {
@@ -147,7 +149,7 @@ public class MainActivity extends FragmentActivity {
 
     public void dataLoadedSuccessfully(List<Fuzz> object) {
         initViewPager();
-        initIndicator();
+        initTabs();
         mMaterialDialog.cancel();
     }
 

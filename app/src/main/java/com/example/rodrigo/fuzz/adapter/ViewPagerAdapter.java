@@ -2,7 +2,7 @@ package com.example.rodrigo.fuzz.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.rodrigo.fuzz.fragment.AllFragment;
 import com.example.rodrigo.fuzz.fragment.ImagesFragment;
@@ -11,14 +11,23 @@ import com.example.rodrigo.fuzz.fragment.TextFragment;
 /**
  * Created by Rodrigo on 22/05/2015.
  */
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+
+    //--------------------------------------------------
+    // Attributes
+    //--------------------------------------------------
+
+    private CharSequence mTitles[];
+    private Integer mNumberOfTabs;
 
     //--------------------------------------------------
     // Constructor
     //--------------------------------------------------
 
-    public ViewPagerAdapter(FragmentManager fragmentManager) {
+    public ViewPagerAdapter(FragmentManager fragmentManager, CharSequence titles[], int numberOfTabs) {
         super(fragmentManager);
+        mTitles = titles;
+        mNumberOfTabs = numberOfTabs;
     }
 
     //--------------------------------------------------
@@ -46,7 +55,12 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    public CharSequence getPageTitle(int position) {
+        return mTitles[position];
+    }
+
+    @Override
     public int getCount() {
-        return 3;
+        return mNumberOfTabs;
     }
 }
